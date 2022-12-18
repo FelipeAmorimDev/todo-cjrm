@@ -1,5 +1,7 @@
-const formAddTodo = document.querySelector('.form-add-todo')
-const taskList = document.querySelector('.todos-container')
+const formAddTodo = document.querySelector('.form-add-todo');
+const taskList = document.querySelector('.todos-container');
+const searchItemTodo = document.querySelector('.form-control');
+
 
 formAddTodo.addEventListener('submit', event => {
   event.preventDefault()
@@ -16,8 +18,28 @@ formAddTodo.addEventListener('submit', event => {
 })
 
 taskList.addEventListener('click', ({ target }) => {
-const isADeletableIten = target.matches('.delete')
+  const isADeletableIten = target.matches('.delete')
   if (isADeletableIten) {
     target.parentElement.remove()
   }
+})
+
+searchItemTodo.addEventListener('input', (event) => {
+  const searchInputValue = event.target.value.trim()
+  const taskItens = taskList.children
+
+  event.preventDefault()
+  
+  Array.from(taskItens)
+    .filter(item => !item.textContent.includes(searchInputValue))
+    .forEach(item => {
+      item.classList.add("hidden")
+      item.classList.remove("d-flex")
+    })
+  Array.from(taskItens)
+    .filter(item => item.textContent.includes(searchInputValue))
+    .forEach(item => {
+      item.classList.add("d-flex")
+      item.classList.remove("hidden")
+    })
 })
